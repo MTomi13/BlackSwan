@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_padding">5dp</dimen>
+    <dimen name="card_elevation">5sp</dimen>
+    <dimen name="list_item_relative_layout_padding">10dp</dimen>
+    <dimen name="card_image_heigth">210dp</dimen>
+    <dimen name="card_image_width">130dp</dimen>
+    <dimen name="card_text_marig">3dp</dimen>
+    <dimen name="title_margin_top">15dp</dimen>
+    <dimen name="separator_margin_top">15dp</dimen>
+    <dimen name="more_info_margin">20dp</dimen>
+    <dimen name="text_medium_size">18sp</dimen>
+</resources>
