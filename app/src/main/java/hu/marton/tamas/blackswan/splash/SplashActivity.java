@@ -1,6 +1,7 @@
 package hu.marton.tamas.blackswan.splash;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import javax.inject.Inject;
 
 import hu.marton.tamas.blackswan.BlackSwanActivity;
+import hu.marton.tamas.blackswan.HomeActivity;
 import hu.marton.tamas.blackswan.R;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 
@@ -50,9 +52,15 @@ public class SplashActivity extends BlackSwanActivity implements SplashActivityC
     @Override
     public void configurationSuccess() {
         setProgressRingVisibility(View.GONE);
+        startHomeActivity();
     }
 
     @Override
     public void configurationFailed() {
+    }
+
+    private void startHomeActivity() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }
