@@ -2,7 +2,7 @@ package hu.marton.tamas.blackswan.api.Popular;
 
 import hu.marton.tamas.blackswan.BlackSwanApplication;
 import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
-import hu.marton.tamas.blackswan.api.Popular.model.Response;
+import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
 import retrofit2.Callback;
 
 /**
@@ -16,7 +16,7 @@ public class PopularContentRequester {
         this.popularContentService = popularContentService;
     }
 
-    public void getPopularContent(ContentType contentType, Callback<Response> callback) {
+    public void getPopularContent(ContentType contentType, Callback<ResponseContent> callback) {
         switch (contentType) {
             case MOVIES:
                 popularContentService.getPopularMovies(BlackSwanApplication.API_KEY).enqueue(callback);

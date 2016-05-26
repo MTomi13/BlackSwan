@@ -11,7 +11,7 @@ import android.view.View;
 import javax.inject.Inject;
 
 import hu.marton.tamas.blackswan.BlackSwanActivity;
-import hu.marton.tamas.blackswan.HomeActivity;
+import hu.marton.tamas.blackswan.home.HomeActivity;
 import hu.marton.tamas.blackswan.R;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 

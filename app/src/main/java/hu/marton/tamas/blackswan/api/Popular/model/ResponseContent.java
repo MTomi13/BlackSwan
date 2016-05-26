@@ -1,17 +1,23 @@
 package hu.marton.tamas.blackswan.api.Popular.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tamas.marton on 26/05/2016.
  */
-public class Response {
+public class ResponseContent {
 
     private Integer page;
     private List<Result> results = new ArrayList<Result>();
+    @SerializedName("total_pages")
     private Integer totalPages;
+    @SerializedName("total_results")
     private Integer totalResults;
+
+    private ContentType contentType;
 
     /**
      * @return The page
@@ -67,5 +73,20 @@ public class Response {
      */
     public void setTotalResults(Integer totalResults) {
         this.totalResults = totalResults;
+    }
+
+
+    /**
+     * @return The contentType
+     */
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    /**
+     * @param contentType The content type
+     */
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 }

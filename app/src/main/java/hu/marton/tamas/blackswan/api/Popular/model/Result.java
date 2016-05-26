@@ -34,6 +34,15 @@ public class Result {
     @SerializedName("vote_count")
     private Integer voteCount;
 
+    @SerializedName("release_date")
+    private String releaseDate;
+    private String title;
+    @SerializedName("profile_path")
+    private String profilePath;
+
+    private String logoImageUrl;
+    private String profileImageUrl;
+
     /**
      * @return The backdropPath
      */
@@ -214,5 +223,75 @@ public class Result {
      */
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    /**
+     * @return The releaseDate
+     */
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    /**
+     * @param releaseDate The release_date
+     */
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    /**
+     * @return The logo image url
+     */
+    public String getLogoImageUrl() {
+        return logoImageUrl;
+    }
+
+    /**
+     * @param logoImageUrl The logo image url
+     */
+    public void setLogoImageUrl(String logoImageUrl) {
+        this.logoImageUrl = logoImageUrl;
+    }
+
+    /**
+     * @return The title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title The title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return The profilePath
+     */
+    public String getProfilePath() {
+        return profilePath;
+    }
+
+    /**
+     * @param profilePath The profile_path
+     */
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
+    }
+
+    /**
+     * @return The profileImageUrl
+     */
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    /**
+     * @param profileImageUrl The profile image url
+     */
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
