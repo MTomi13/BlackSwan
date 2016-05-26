@@ -11,6 +11,7 @@ import hu.marton.tamas.blackswan.modules.NetworkModule;
  */
 public class BlackSwanApplication extends Application {
 
+    public static String API_KEY = "0a08e38b874d0aa2d426ffc04357069d";
     private ObjectGraph objectGraph;
 
     @Override
