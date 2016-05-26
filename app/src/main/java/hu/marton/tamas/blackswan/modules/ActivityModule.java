@@ -1,8 +1,13 @@
 package hu.marton.tamas.blackswan.modules;
 
 import dagger.Module;
+import dagger.Provides;
 import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.HomeActivity;
+import hu.marton.tamas.blackswan.api.Configuration.ConfigurationRequester;
+import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseStore;
+import hu.marton.tamas.blackswan.splash.SplashActivity;
+import hu.marton.tamas.blackswan.splash.SplashActivityController;
 
 /**
  * Created by tamas.marton on 26/05/2016.
@@ -10,7 +15,8 @@ import hu.marton.tamas.blackswan.HomeActivity;
 @Module(
         injects = {
                 BlackSwanActivity.class,
-                HomeActivity.class
+                HomeActivity.class,
+                SplashActivity.class
         },
         addsTo = NetworkModule.class,
         library = true
@@ -21,5 +27,10 @@ public class ActivityModule {
 
     public ActivityModule(BlackSwanActivity blackSwanActivity) {
         this.blackSwanActivity = blackSwanActivity;
+    }
+
+    @Provides
+    SplashActivityController provideSplashActivityController(ConfigurationRequester configurationRequester, ConfigurationResponseStore configurationResponseStore) {
+        return new SplashActivityController(configurationRequester, configurationResponseStore);
     }
 }

@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceFactory {
 
-    private static final String API_ENDPOINT = "http://api.themoviedb.org/3";
+    private static final String API_ENDPOINT = "http://api.themoviedb.org/3/";
 
     /**
      * @return PopularContentService

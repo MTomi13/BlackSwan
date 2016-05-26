@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import hu.marton.tamas.blackswan.api.Configuration.ConfigurationService;
+import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseStore;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentService;
 import hu.marton.tamas.blackswan.api.ServiceFactory;
 
@@ -34,5 +35,11 @@ public class ApplicationModule {
     @Singleton
     PopularContentService providePopularService() {
         return new ServiceFactory().createPopularService();
+    }
+
+    @Provides
+    @Singleton
+    ConfigurationResponseStore provideConfigurationResponseStore() {
+        return new ConfigurationResponseStore();
     }
 }

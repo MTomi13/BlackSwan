@@ -10,6 +10,6 @@ import retrofit2.http.Query;
  */
 public interface ConfigurationService {
 
-    @GET("/configuration")
+    @GET("configuration")
     Call<Configuration> getConfiguration(@Query("api_key") String apiKey);
 }

@@ -10,12 +10,12 @@ import retrofit2.http.Query;
  */
 public interface PopularContentService {
 
-    @GET("/movie/popular")
+    @GET("movie/popular")
     Call<Response> getPopularMovies(@Query("api_key") String apiKey);
 
-    @GET("/tv/popular")
+    @GET("tv/popular")
     Call<Response> getPopularSeries(@Query("api_key") String apiKey);
 
-    @GET("/person/popular")
+    @GET("person/popular")
     Call<Response> getPopularPeople(@Query("api_key") String apiKey);
 }
