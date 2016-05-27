@@ -2,6 +2,7 @@ package hu.marton.tamas.blackswan.api;
 
 import hu.marton.tamas.blackswan.api.Configuration.ConfigurationService;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentService;
+import hu.marton.tamas.blackswan.api.search.SearchService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,10 +34,19 @@ public class ServiceFactory {
     }
 
     /**
-     * @param client
-     * @param serviceEndpoint
+     * @return SearchService
+     * create retrofit builder for SearchService
+     */
+    public SearchService createSearchService() {
+        Retrofit.Builder builder = getRestAdapterBuilder(new OkHttpClient.Builder().addInterceptor(setupLogger()).build(), API_ENDPOINT);
+        return builder.build().create(SearchService.class);
+    }
+
+    /**
+     * @param client          client
+     * @param serviceEndpoint serviceEndpoint
      * @return Retrofit.Builder
-     * setup Restadapter builder, with HttpClient, GsonConverter, baseUrl
+     * setup RestAdapter builder, with HttpClient, GsonConverter, baseUrl
      */
     private Retrofit.Builder getRestAdapterBuilder(OkHttpClient client, String serviceEndpoint) {
         Retrofit.Builder builder = new Retrofit.Builder();

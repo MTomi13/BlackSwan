@@ -10,6 +10,7 @@ import hu.marton.tamas.blackswan.api.Configuration.ConfigurationService;
 import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseStore;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentService;
 import hu.marton.tamas.blackswan.api.ServiceFactory;
+import hu.marton.tamas.blackswan.api.search.SearchService;
 
 /**
  * Created by tamas.marton on 26/05/2016.
@@ -35,6 +36,12 @@ public class ApplicationModule {
     @Singleton
     PopularContentService providePopularService() {
         return new ServiceFactory().createPopularService();
+    }
+
+    @Provides
+    @Singleton
+    SearchService provideSearchService() {
+        return new ServiceFactory().createSearchService();
     }
 
     @Provides

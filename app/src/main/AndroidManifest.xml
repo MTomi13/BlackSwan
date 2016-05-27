@@ -13,14 +13,14 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".home.HomeActivity"
-            android:noHistory="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/search" />
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".BlackSwanActivity"
@@ -39,7 +39,7 @@
         </activity>
 
         <provider
-            android:name="hu.marton.tamas.blackswan.SuggestionProvider"
-            android:authorities="hu.marton.tamas.blackswan.SuggestionProvider" />
+            android:name=".util.SuggestionProvider"
+            android:authorities="hu.marton.tamas.blackswan.util.SuggestionProvider" />
     </application>
 </manifest>

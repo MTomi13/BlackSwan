@@ -3,13 +3,13 @@
     <item
         android:id="@+id/bottomBarItemOne"
         android:icon="@drawable/movies_icon"
-        android:title="Movies" />
+        android:title="@string/bottom_bar_movies" />
     <item
         android:id="@+id/bottomBarItemTwo"
         android:icon="@drawable/series_icon"
-        android:title="Series" />
+        android:title="@string/bottom_bar_series" />
     <item
         android:id="@+id/bottomBarItemThree"
         android:icon="@drawable/people_icon"
-        android:title="Peoples" />
+        android:title="@string/bottom_bar_peoples" />
 </menu>

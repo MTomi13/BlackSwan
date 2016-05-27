@@ -6,6 +6,7 @@ import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.api.Configuration.ConfigurationRequester;
 import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseStore;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentRequester;
+import hu.marton.tamas.blackswan.api.search.SearchRequester;
 import hu.marton.tamas.blackswan.home.HomeActivity;
 import hu.marton.tamas.blackswan.home.HomeActivityController;
 import hu.marton.tamas.blackswan.splash.SplashActivity;
@@ -37,7 +38,7 @@ public class ActivityModule {
     }
 
     @Provides
-    HomeActivityController provideHomeActivityController(PopularContentRequester popularContentRequester, ConfigurationResponseStore configurationResponseStore) {
-        return new HomeActivityController(popularContentRequester, configurationResponseStore);
+    HomeActivityController provideHomeActivityController(PopularContentRequester popularContentRequester, SearchRequester searchRequester, ConfigurationResponseStore configurationResponseStore) {
+        return new HomeActivityController(popularContentRequester, searchRequester, configurationResponseStore);
     }
 }

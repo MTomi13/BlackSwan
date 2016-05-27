@@ -24,7 +24,7 @@ public class PopularContentRequester {
             case SERIES:
                 popularContentService.getPopularSeries(BlackSwanApplication.API_KEY).enqueue(callback);
                 break;
-            case PEOPLE:
+            default:
                 popularContentService.getPopularPeople(BlackSwanApplication.API_KEY).enqueue(callback);
                 break;
         }

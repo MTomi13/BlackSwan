@@ -6,6 +6,8 @@ import hu.marton.tamas.blackswan.api.Configuration.ConfigurationRequester;
 import hu.marton.tamas.blackswan.api.Configuration.ConfigurationService;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentRequester;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentService;
+import hu.marton.tamas.blackswan.api.search.SearchRequester;
+import hu.marton.tamas.blackswan.api.search.SearchService;
 
 /**
  * Created by tamas.marton on 26/05/2016.
@@ -26,5 +28,10 @@ public class NetworkModule {
     @Provides
     PopularContentRequester providePopularContentRequester(PopularContentService popularContentService) {
         return new PopularContentRequester(popularContentService);
+    }
+
+    @Provides
+    SearchRequester provideSearchRequester(SearchService searchService) {
+        return new SearchRequester(searchService);
     }
 }

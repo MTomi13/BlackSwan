@@ -11,8 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
@@ -22,9 +24,9 @@ import javax.inject.Inject;
 
 import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.R;
-import hu.marton.tamas.blackswan.SuggestionProvider;
 import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
 import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
+import hu.marton.tamas.blackswan.util.SuggestionProvider;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
@@ -47,9 +49,9 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupToolbar();
-        setupRecyclerView();
-
         setupBottomBar(savedInstanceState);
+        handleIntent(getIntent());
+        setupRecyclerView();
 
         bottomBarClicked(ContentType.MOVIES);
         homeActivityController.setContentRequestListener(this);
@@ -79,19 +81,20 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
         if (coordinatorLayout != null) {
             bottomBar = BottomBar.attachShy(coordinatorLayout, findViewById(R.id.recyclerview), savedInstanceState);
         }
+        bottomBar.setDefaultTabPosition(0);
         bottomBar.setItemsFromMenu(R.menu.bottom_bar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                switch (menuItemId) {
-                    case R.id.bottomBarItemOne:
-                        bottomBarClicked(ContentType.MOVIES);
-                        break;
-                    case R.id.bottomBarItemTwo:
-                        bottomBarClicked(ContentType.SERIES);
-                        break;
-                    default:
-                        bottomBarClicked(ContentType.PEOPLE);
-                }
+                    switch (menuItemId) {
+                        case R.id.bottomBarItemOne:
+                            bottomBarClicked(ContentType.MOVIES);
+                            break;
+                        case R.id.bottomBarItemTwo:
+                            bottomBarClicked(ContentType.SERIES);
+                            break;
+                        default:
+                            bottomBarClicked(ContentType.PEOPLE);
+                    }
             }
 
             @Override
@@ -144,7 +147,16 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
             String query = intent.getStringExtra(SearchManager.QUERY);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-
+            switch (bottomBar.getCurrentTabPosition()) {
+                case 0:
+                    homeActivityController.startSearchRequest(ContentType.MOVIES, query);
+                    break;
+                case 1:
+                    homeActivityController.startSearchRequest(ContentType.SERIES, query);
+                    break;
+                default:
+                    homeActivityController.startSearchRequest(ContentType.PEOPLE, query);
+            }
         }
     }
 
