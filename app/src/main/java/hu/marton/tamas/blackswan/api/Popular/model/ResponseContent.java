@@ -11,7 +11,7 @@ import java.util.List;
 public class ResponseContent {
 
     private Integer page;
-    private List<Result> results = new ArrayList<Result>();
+    private List<ResultWrapper> results = new ArrayList<ResultWrapper>();
     @SerializedName("total_pages")
     private Integer totalPages;
     @SerializedName("total_results")
@@ -34,17 +34,17 @@ public class ResponseContent {
     }
 
     /**
-     * @return The results
+     * @return The resultWrappers
      */
-    public List<Result> getResults() {
+    public List<ResultWrapper> getResultWrappers() {
         return results;
     }
 
     /**
-     * @param results The results
+     * @param resultWrappers The resultWrappers
      */
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setResultWrappers(List<ResultWrapper> resultWrappers) {
+        this.results = resultWrappers;
     }
 
     /**

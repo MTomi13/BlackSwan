@@ -12,17 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".home.HomeActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
             android:name=".BlackSwanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -36,6 +25,22 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".home.HomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".details.DetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <provider

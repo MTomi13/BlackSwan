@@ -11,10 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
@@ -26,6 +24,8 @@ import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.R;
 import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
 import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
+import hu.marton.tamas.blackswan.api.Popular.model.ResultWrapper;
+import hu.marton.tamas.blackswan.details.DetailsActivity;
 import hu.marton.tamas.blackswan.util.SuggestionProvider;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
@@ -34,7 +34,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 /**
  * Created by tamas.marton on 26/05/2016.
  */
-public class HomeActivity extends BlackSwanActivity implements HomeActivityController.ContentRequestListener {
+public class HomeActivity extends BlackSwanActivity implements HomeActivityController.ContentRequestListener, HomeAdapter.ResultWrapperClickListener {
 
     private static final int ANIM_DURATION = 800;
 
@@ -85,16 +85,16 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
         bottomBar.setItemsFromMenu(R.menu.bottom_bar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                    switch (menuItemId) {
-                        case R.id.bottomBarItemOne:
-                            bottomBarClicked(ContentType.MOVIES);
-                            break;
-                        case R.id.bottomBarItemTwo:
-                            bottomBarClicked(ContentType.SERIES);
-                            break;
-                        default:
-                            bottomBarClicked(ContentType.PEOPLE);
-                    }
+                switch (menuItemId) {
+                    case R.id.bottomBarItemOne:
+                        bottomBarClicked(ContentType.MOVIES);
+                        break;
+                    case R.id.bottomBarItemTwo:
+                        bottomBarClicked(ContentType.SERIES);
+                        break;
+                    default:
+                        bottomBarClicked(ContentType.PEOPLE);
+                }
             }
 
             @Override
@@ -181,10 +181,18 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
      * @param responseContent setup the SearchResultAdapter
      */
     private void setupRecycleViewAdapter(ResponseContent responseContent) {
-        HomeAdapter adapter = new HomeAdapter(responseContent, ViewHelper.getImageOptions());
+        HomeAdapter adapter = new HomeAdapter(responseContent, ViewHelper.getImageOptions(), this);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         scaleAdapter.setDuration(ANIM_DURATION);
         recyclerView.setAdapter(scaleAdapter);
+    }
+
+    @Override
+    public void resultWrapperClicked(ResultWrapper resultWrapper, ContentType contentType) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        resultWrapper.setContentType(contentType);
+        intent.putExtra(ResultWrapper.class.getName(), resultWrapper);
+        startActivity(intent);
     }
 }

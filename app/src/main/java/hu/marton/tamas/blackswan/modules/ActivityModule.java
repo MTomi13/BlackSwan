@@ -7,6 +7,7 @@ import hu.marton.tamas.blackswan.api.Configuration.ConfigurationRequester;
 import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseStore;
 import hu.marton.tamas.blackswan.api.Popular.PopularContentRequester;
 import hu.marton.tamas.blackswan.api.search.SearchRequester;
+import hu.marton.tamas.blackswan.details.DetailsActivity;
 import hu.marton.tamas.blackswan.home.HomeActivity;
 import hu.marton.tamas.blackswan.home.HomeActivityController;
 import hu.marton.tamas.blackswan.splash.SplashActivity;
@@ -19,7 +20,8 @@ import hu.marton.tamas.blackswan.splash.SplashActivityController;
         injects = {
                 BlackSwanActivity.class,
                 HomeActivity.class,
-                SplashActivity.class
+                SplashActivity.class,
+                DetailsActivity.class
         },
         addsTo = NetworkModule.class,
         library = true

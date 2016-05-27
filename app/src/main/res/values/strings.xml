@@ -5,4 +5,9 @@
     <string name="bottom_bar_movies">Movies</string>
     <string name="bottom_bar_series">Series</string>
     <string name="bottom_bar_peoples">Peoples</string>
+
+    <string name="original_language">Original language: %1$s</string>
+    <string name="original_title">Original title: %1$s</string>
+    <string name="origin_country">Origin country: %1$s</string>
+    <string name="rate">%1$s(%2$s)</string>
 </resources>

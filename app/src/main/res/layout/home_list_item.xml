@@ -84,7 +84,7 @@
 
             <TextView
                 android:id="@+id/more_info"
-                style="@style/SmallListItemText"
+                style="@style/MediumListItemText"
                 android:layout_alignBottom="@+id/card_imageview"
                 android:layout_alignLeft="@+id/title"
                 android:layout_alignStart="@+id/title"

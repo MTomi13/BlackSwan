@@ -14,8 +14,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.List;
 
 import hu.marton.tamas.blackswan.R;
+import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
 import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
-import hu.marton.tamas.blackswan.api.Popular.model.Result;
+import hu.marton.tamas.blackswan.api.Popular.model.ResultWrapper;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 
 /**
@@ -25,10 +26,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     private ResponseContent responseContent;
     private final DisplayImageOptions imageOptions;
+    private ResultWrapperClickListener resultWrapperClickListener;
 
-    public HomeAdapter(ResponseContent responseContent, DisplayImageOptions imageOptions) {
+    public HomeAdapter(ResponseContent responseContent, DisplayImageOptions imageOptions, ResultWrapperClickListener resultWrapperClickListener) {
         this.responseContent = responseContent;
         this.imageOptions = imageOptions;
+        this.resultWrapperClickListener = resultWrapperClickListener;
     }
 
     @Override
@@ -39,31 +42,45 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(final HomeViewHolderHandler holder, final int position) {
-        List<Result> results = responseContent.getResults();
-        holder.rate.setText(String.valueOf(results.get(position).getVoteAverage()));
-        switch (responseContent.getContentType()) {
+        List<ResultWrapper> resultWrappers = responseContent.getResultWrappers();
+        final ResultWrapper resultWrapper = resultWrappers.get(position);
+        final ContentType contentType = responseContent.getContentType();
+        holder.rate.setText(String.valueOf(resultWrapper.getVoteAverage()));
+        switch (contentType) {
             case MOVIES:
-                holder.year.setText(results.get(position).getReleaseDate());
-                holder.title.setText(results.get(position).getTitle());
-                ImageLoader.getInstance().displayImage(results.get(position).getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        resultWrapperClickListener.resultWrapperClicked(resultWrapper, contentType);
+                    }
+                });
+                holder.year.setText(resultWrapper.getReleaseDate());
+                holder.title.setText(resultWrapper.getTitle());
+                ImageLoader.getInstance().displayImage(resultWrapper.getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
                 break;
             case SERIES:
-                holder.title.setText(results.get(position).getName());
-                holder.year.setText(results.get(position).getFirstAirDate());
-                ImageLoader.getInstance().displayImage(results.get(position).getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        resultWrapperClickListener.resultWrapperClicked(resultWrapper, contentType);
+                    }
+                });
+                holder.title.setText(resultWrapper.getName());
+                holder.year.setText(resultWrapper.getFirstAirDate());
+                ImageLoader.getInstance().displayImage(resultWrapper.getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
                 break;
             case PEOPLE:
-                holder.title.setText(results.get(position).getName());
+                holder.title.setText(resultWrapper.getName());
                 ViewHelper.setVisibility(View.GONE, holder.rate, holder.moreInfo, holder.separator);
-                ImageLoader.getInstance().displayImage(results.get(position).getProfileImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                ImageLoader.getInstance().displayImage(resultWrapper.getProfileImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
                 break;
         }
-        holder.overView.setText(results.get(position).getOverview());
+        holder.overView.setText(resultWrapper.getOverview());
     }
 
     @Override
     public int getItemCount() {
-        return responseContent.getResults().size();
+        return responseContent.getResultWrappers().size();
     }
 
     protected class HomeViewHolderHandler extends RecyclerView.ViewHolder {
@@ -86,5 +103,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             separator = itemView.findViewById(R.id.separator);
             image = (ImageView) itemView.findViewById(R.id.card_imageview);
         }
+    }
+
+    public interface ResultWrapperClickListener {
+
+        void resultWrapperClicked(ResultWrapper resultWrapper, ContentType contentType);
     }
 }

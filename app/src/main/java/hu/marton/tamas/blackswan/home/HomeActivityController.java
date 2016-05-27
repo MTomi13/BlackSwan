@@ -6,7 +6,7 @@ import hu.marton.tamas.blackswan.api.Configuration.model.ConfigurationResponseSt
 import hu.marton.tamas.blackswan.api.Popular.PopularContentRequester;
 import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
 import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
-import hu.marton.tamas.blackswan.api.Popular.model.Result;
+import hu.marton.tamas.blackswan.api.Popular.model.ResultWrapper;
 import hu.marton.tamas.blackswan.api.search.SearchRequester;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,20 +56,21 @@ public class HomeActivityController implements Callback<ResponseContent> {
 
     private ResponseContent setResultsImageUrl(Response<ResponseContent> response) {
         response.body().setContentType(contentType);
-        List<Result> results = response.body().getResults();
+        List<ResultWrapper> resultWrappers = response.body().getResultWrappers();
         String baseUlr = configurationResponseStore.getConfiguration().getImages().getBaseUrl();
-        for (Result result : results) {
+        for (ResultWrapper resultWrapper : resultWrappers) {
             switch (contentType) {
                 case MOVIES:
                 case SERIES:
-                    result.setLogoImageUrl(baseUlr + configurationResponseStore.getConfiguration().getImages().getLogoSizes().get(3) + result.getPosterPath());
+                    resultWrapper.setLogoImageUrl(baseUlr + configurationResponseStore.getConfiguration().getImages().getLogoSizes().get(3) + resultWrapper.getPosterPath());
+                    resultWrapper.setBackDropImageUrl(baseUlr + configurationResponseStore.getConfiguration().getImages().getBackdropSizes().get(3) + resultWrapper.getBackdropPath());
                     break;
                 case PEOPLE:
-                    result.setProfileImageUrl(baseUlr + configurationResponseStore.getConfiguration().getImages().getProfileSizes().get(3) + result.getProfilePath());
+                    resultWrapper.setProfileImageUrl(baseUlr + configurationResponseStore.getConfiguration().getImages().getProfileSizes().get(3) + resultWrapper.getProfilePath());
                     break;
             }
         }
-        response.body().setResults(results);
+        response.body().setResultWrappers(resultWrappers);
         return response.body();
     }
 

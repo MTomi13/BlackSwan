@@ -1,5 +1,8 @@
 package hu.marton.tamas.blackswan.api.Popular.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.List;
 /**
  * Created by tamas.marton on 26/05/2016.
  */
-public class Result {
+public class ResultWrapper implements Parcelable {
 
     @SerializedName("backdrop_path")
     private String backdropPath;
@@ -40,8 +43,14 @@ public class Result {
     @SerializedName("profile_path")
     private String profilePath;
 
+    @SerializedName("original_title")
+    private String originalTitle;
+
     private String logoImageUrl;
     private String profileImageUrl;
+    private String backDropImageUrl;
+
+    private ContentType contentType;
 
     /**
      * @return The backdropPath
@@ -282,6 +291,20 @@ public class Result {
     }
 
     /**
+     * @return The originalTitle
+     */
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    /**
+     * @param originalTitle The original_title
+     */
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    /**
      * @return The profileImageUrl
      */
     public String getProfileImageUrl() {
@@ -294,4 +317,97 @@ public class Result {
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
+
+    /**
+     * @return The backDropImageUrl
+     */
+    public String getBackDropImageUrl() {
+        return backDropImageUrl;
+    }
+
+    /**
+     * @param backDropImageUrl The back drop image url
+     */
+    public void setBackDropImageUrl(String backDropImageUrl) {
+        this.backDropImageUrl = backDropImageUrl;
+    }
+
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.backdropPath);
+        dest.writeString(this.firstAirDate);
+        dest.writeList(this.genreIds);
+        dest.writeValue(this.id);
+        dest.writeString(this.originalLanguage);
+        dest.writeString(this.originalName);
+        dest.writeString(this.overview);
+        dest.writeStringList(this.originCountry);
+        dest.writeString(this.posterPath);
+        dest.writeValue(this.popularity);
+        dest.writeString(this.name);
+        dest.writeValue(this.voteAverage);
+        dest.writeValue(this.voteCount);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.title);
+        dest.writeString(this.profilePath);
+        dest.writeString(this.originalTitle);
+        dest.writeString(this.logoImageUrl);
+        dest.writeString(this.profileImageUrl);
+        dest.writeString(this.backDropImageUrl);
+        dest.writeInt(this.contentType == null ? -1 : this.contentType.ordinal());
+    }
+
+    public ResultWrapper() {
+    }
+
+    protected ResultWrapper(Parcel in) {
+        this.backdropPath = in.readString();
+        this.firstAirDate = in.readString();
+        this.genreIds = new ArrayList<Integer>();
+        in.readList(this.genreIds, Integer.class.getClassLoader());
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.originalLanguage = in.readString();
+        this.originalName = in.readString();
+        this.overview = in.readString();
+        this.originCountry = in.createStringArrayList();
+        this.posterPath = in.readString();
+        this.popularity = (Double) in.readValue(Double.class.getClassLoader());
+        this.name = in.readString();
+        this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
+        this.voteCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.releaseDate = in.readString();
+        this.title = in.readString();
+        this.profilePath = in.readString();
+        this.originalTitle = in.readString();
+        this.logoImageUrl = in.readString();
+        this.profileImageUrl = in.readString();
+        this.backDropImageUrl = in.readString();
+        int tmpContentType = in.readInt();
+        this.contentType = tmpContentType == -1 ? null : ContentType.values()[tmpContentType];
+    }
+
+    public static final Parcelable.Creator<ResultWrapper> CREATOR = new Parcelable.Creator<ResultWrapper>() {
+        @Override
+        public ResultWrapper createFromParcel(Parcel source) {
+            return new ResultWrapper(source);
+        }
+
+        @Override
+        public ResultWrapper[] newArray(int size) {
+            return new ResultWrapper[size];
+        }
+    };
 }
