@@ -10,6 +10,7 @@ import retrofit2.Response;
 
 /**
  * Created by tamas.marton on 26/05/2016.
+ * Controller for the SPlashActivity to handle the configuration request, save the result and callback to the activity
  */
 public class SplashActivityController implements Callback<Configuration> {
 
@@ -29,19 +30,27 @@ public class SplashActivityController implements Callback<Configuration> {
 
     @Override
     public void onResponse(Call<Configuration> call, Response<Configuration> response) {
-        configurationResponseStore.setConfiguration(response.body());
+        saveConfiguration(response);
         configurationRequestListener.configurationSuccess();
+    }
+
+    /**
+     * @param response Response<Configuration>
+     *                 save the configuration into the memory
+     */
+    private void saveConfiguration(Response<Configuration> response) {
+        configurationResponseStore.setConfiguration(response.body());
     }
 
     @Override
     public void onFailure(Call<Configuration> call, Throwable throwable) {
-        configurationRequestListener.configurationFailed();
+        configurationRequestListener.configurationFailed(throwable);
     }
 
     public interface ConfigurationRequestListener {
 
         void configurationSuccess();
 
-        void configurationFailed();
+        void configurationFailed(Throwable throwable);
     }
 }

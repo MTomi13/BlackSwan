@@ -16,6 +16,12 @@ public class SearchRequester {
         this.searchService = searchService;
     }
 
+    /**
+     * @param contentType ContentType
+     * @param query       String
+     * @param callback    Callback<ResponseContent>
+     *                    start the search request by the contentType
+     */
     public void getSearchResult(ContentType contentType, String query, Callback<ResponseContent> callback) {
         switch (contentType) {
             case MOVIES:

@@ -17,4 +17,6 @@
     <dimen name="detail_overview_margin_top">30dp</dimen>
     <dimen name="details_imageview_margin_top">20dp</dimen>
     <dimen name="details_rate_margin_left">10dp</dimen>
+
+    <dimen name="progress_bar_margin">-7dp</dimen>
 </resources>

@@ -26,15 +26,14 @@ public class BlackSwanApplication extends Application {
     }
 
     /**
-     * setup objectGraph for dependanc handling
+     * setup objectGraph for dependency handling
      */
     private void setupObjectGraph() {
         objectGraph = ObjectGraph.create(new ApplicationModule(this), new NetworkModule());
     }
 
     /**
-     * @param context
-     * init imageLoader
+     * @param context init imageLoader
      */
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);

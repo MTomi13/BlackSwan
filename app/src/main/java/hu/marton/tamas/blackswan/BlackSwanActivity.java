@@ -9,6 +9,7 @@ import hu.marton.tamas.blackswan.modules.ActivityModule;
 
 /**
  * Created by tamas.marton on 26/05/2016.
+ * base activity to add the ActivityModule to the ObjectGraph
  */
 public class BlackSwanActivity extends AppCompatActivity{
 

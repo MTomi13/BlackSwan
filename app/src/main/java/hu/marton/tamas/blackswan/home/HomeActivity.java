@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -26,10 +27,12 @@ import hu.marton.tamas.blackswan.api.Popular.model.ContentType;
 import hu.marton.tamas.blackswan.api.Popular.model.ResponseContent;
 import hu.marton.tamas.blackswan.api.Popular.model.ResultWrapper;
 import hu.marton.tamas.blackswan.details.DetailsActivity;
+import hu.marton.tamas.blackswan.util.GeneralErrorHandler;
 import hu.marton.tamas.blackswan.util.SuggestionProvider;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import me.zhanghai.android.materialprogressbar.IndeterminateHorizontalProgressDrawable;
 
 /**
  * Created by tamas.marton on 26/05/2016.
@@ -55,6 +58,7 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
 
         bottomBarClicked(ContentType.MOVIES);
         homeActivityController.setContentRequestListener(this);
+        ((ProgressBar) findViewById(R.id.home_progress_bar)).setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(this));
     }
 
     /**
@@ -76,12 +80,12 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
         }
     }
 
+    /**
+     * @param savedInstanceState savedInstanceState
+     *                           setup the bottom bar
+     */
     private void setupBottomBar(Bundle savedInstanceState) {
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.cordinator_layout);
-        if (coordinatorLayout != null) {
-            bottomBar = BottomBar.attachShy(coordinatorLayout, findViewById(R.id.recyclerview), savedInstanceState);
-        }
-        bottomBar.setDefaultTabPosition(0);
+        bottomBar = BottomBar.attachShy((CoordinatorLayout) findViewById(R.id.cordinator_layout), findViewById(R.id.recyclerview), savedInstanceState);
         bottomBar.setItemsFromMenu(R.menu.bottom_bar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
@@ -104,6 +108,10 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
         });
     }
 
+    /**
+     * @param contentType contentType
+     *                    handle bottom bar item click
+     */
     private void bottomBarClicked(ContentType contentType) {
         homeActivityController.startContentRequest(contentType);
         ViewHelper.setVisibility(View.VISIBLE, findViewById(R.id.home_progress_bar));
@@ -147,16 +155,24 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
             String query = intent.getStringExtra(SearchManager.QUERY);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-            switch (bottomBar.getCurrentTabPosition()) {
-                case 0:
-                    homeActivityController.startSearchRequest(ContentType.MOVIES, query);
-                    break;
-                case 1:
-                    homeActivityController.startSearchRequest(ContentType.SERIES, query);
-                    break;
-                default:
-                    homeActivityController.startSearchRequest(ContentType.PEOPLE, query);
-            }
+            startQueryByContentType(query);
+        }
+    }
+
+    /**
+     * @param query query
+     *              start search by content type
+     */
+    private void startQueryByContentType(String query) {
+        switch (bottomBar.getCurrentTabPosition()) {
+            case 0:
+                homeActivityController.startSearchRequest(ContentType.MOVIES, query);
+                break;
+            case 1:
+                homeActivityController.startSearchRequest(ContentType.SERIES, query);
+                break;
+            default:
+                homeActivityController.startSearchRequest(ContentType.PEOPLE, query);
         }
     }
 
@@ -174,7 +190,7 @@ public class HomeActivity extends BlackSwanActivity implements HomeActivityContr
 
     @Override
     public void contentRequestFailed(Throwable throwable) {
-
+        GeneralErrorHandler.showErrorMessage(this, getString(R.string.snackbar_text));
     }
 
     /**

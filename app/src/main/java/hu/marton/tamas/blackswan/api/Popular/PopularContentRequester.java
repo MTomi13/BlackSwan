@@ -16,6 +16,11 @@ public class PopularContentRequester {
         this.popularContentService = popularContentService;
     }
 
+    /**
+     * @param contentType ContentType
+     * @param callback    Callback<ResponseContent>
+     *                    start the content request by the contentType
+     */
     public void getPopularContent(ContentType contentType, Callback<ResponseContent> callback) {
         switch (contentType) {
             case MOVIES:

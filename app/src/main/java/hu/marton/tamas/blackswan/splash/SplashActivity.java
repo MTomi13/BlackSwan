@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.home.HomeActivity;
 import hu.marton.tamas.blackswan.R;
+import hu.marton.tamas.blackswan.util.GeneralErrorHandler;
 import hu.marton.tamas.blackswan.util.ViewHelper;
 
 /**
@@ -31,7 +32,7 @@ public class SplashActivity extends BlackSwanActivity implements SplashActivityC
             splashActivityController.startConfigurationRequest(this);
             setProgressRingVisibility(View.VISIBLE);
         } else {
-
+            GeneralErrorHandler.showErrorMessage(this, getString(R.string.snackbar_text_internet));
         }
     }
 
@@ -56,7 +57,8 @@ public class SplashActivity extends BlackSwanActivity implements SplashActivityC
     }
 
     @Override
-    public void configurationFailed() {
+    public void configurationFailed(Throwable throwable) {
+        GeneralErrorHandler.showErrorMessage(this, getString(R.string.snackbar_text));
     }
 
     private void startHomeActivity() {

@@ -12,6 +12,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.util.List;
+
 import hu.marton.tamas.blackswan.BlackSwanActivity;
 import hu.marton.tamas.blackswan.R;
 import hu.marton.tamas.blackswan.api.Popular.model.ResultWrapper;
@@ -89,10 +91,17 @@ public class DetailsActivity extends BlackSwanActivity {
                 break;
             case SERIES:
                 collapsingToolbar.setTitle(resultWrapper.getName());
-                ((TextView) findViewById(R.id.origin_country)).setText(getResources().getString(R.string.origin_country, resultWrapper.getOriginCountry().get(0)));
+                setupOriginCountryForSeries(resultWrapper);
                 originTitle.setText(getResources().getString(R.string.original_title, resultWrapper.getOriginalName()));
                 releaseDate.setText(resultWrapper.getFirstAirDate());
                 break;
+        }
+    }
+
+    private void setupOriginCountryForSeries(ResultWrapper resultWrapper) {
+        List<String> originCountry = resultWrapper.getOriginCountry();
+        if (originCountry.size() != 0) {
+            ((TextView) findViewById(R.id.origin_country)).setText(getResources().getString(R.string.origin_country, originCountry.get(0)));
         }
     }
 }

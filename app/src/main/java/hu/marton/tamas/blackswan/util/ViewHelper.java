@@ -13,8 +13,9 @@ import hu.marton.tamas.blackswan.R;
 public class ViewHelper {
 
     /**
-     * @param visibility
-     * @param views      setup the visibility for the views
+     * @param visibility visibility
+     * @param views  views
+     * setup the visibility for the views
      */
     public static void setVisibility(int visibility, View... views) {
         for (View view : views) {

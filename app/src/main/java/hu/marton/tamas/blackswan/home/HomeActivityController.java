@@ -14,6 +14,7 @@ import retrofit2.Response;
 
 /**
  * Created by tamas.marton on 26/05/2016.
+ * HomeActivityController to manage the network communication and callback to the activity
  */
 public class HomeActivityController implements Callback<ResponseContent> {
 
@@ -30,11 +31,20 @@ public class HomeActivityController implements Callback<ResponseContent> {
         this.configurationResponseStore = configurationResponseStore;
     }
 
+    /**
+     * @param contentType contentType
+     *                    start the content request
+     */
     public void startContentRequest(ContentType contentType) {
         this.contentType = contentType;
         popularContentRequester.getPopularContent(contentType, this);
     }
 
+    /**
+     * @param contentType contentType
+     * @param query       query
+     *                    start the search request by query
+     */
     public void startSearchRequest(ContentType contentType, String query) {
         this.contentType = contentType;
         searchRequester.getSearchResult(contentType, query, this);
@@ -54,6 +64,11 @@ public class HomeActivityController implements Callback<ResponseContent> {
         contentRequestListener.contentRequestFailed(throwable);
     }
 
+    /**
+     * @param response response
+     * @return ResponseContent
+     * setup the responseContent image url's by the sizes, and base url from the configuration
+     */
     private ResponseContent setResultsImageUrl(Response<ResponseContent> response) {
         response.body().setContentType(contentType);
         List<ResultWrapper> resultWrappers = response.body().getResultWrappers();

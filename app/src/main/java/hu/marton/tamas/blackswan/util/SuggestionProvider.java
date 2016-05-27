@@ -4,6 +4,7 @@ import android.content.SearchRecentSuggestionsProvider;
 
 /**
  * Created by tamas.marton on 26/05/2016.
+ * setup the suggestion provider
  */
 public class SuggestionProvider extends SearchRecentSuggestionsProvider{
 
