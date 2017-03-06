@@ -12,7 +12,7 @@
     <dimen name="text_medium_size">18sp</dimen>
 
     <dimen name="details_expand_margin_end">64dp</dimen>
-    <dimen name="details_expand_margin_start">48dp</dimen>
+    <dimen name="details_expand_margin_start">20dp</dimen>
     <dimen name="details_min_heigth_collapsing_image">100dp</dimen>
     <dimen name="detail_overview_margin_top">30dp</dimen>
     <dimen name="details_imageview_margin_top">20dp</dimen>

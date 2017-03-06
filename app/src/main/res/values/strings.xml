@@ -9,7 +9,7 @@
     <string name="original_language">Original language: %1$s</string>
     <string name="original_title">Original title: %1$s</string>
     <string name="origin_country">Origin country: %1$s</string>
-    <string name="rate">%1$s(%2$s)</string>
+    <string name="rate">%1$s(%2$d)</string>
 
     <string name="snackbar_text">Something went wrong, please try again.</string>
     <string name="snackbar_text_internet">Internet connection error! Pls connect to the internet!</string>

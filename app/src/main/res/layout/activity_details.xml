@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -25,13 +25,15 @@
 
             <ImageView
                 android:id="@+id/collapsing_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:minHeight="@dimen/details_min_heigth_collapsing_image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/black_swan_logo"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                tools:src="@drawable/placeholder"
+                tools:ignore="ContentDescription" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

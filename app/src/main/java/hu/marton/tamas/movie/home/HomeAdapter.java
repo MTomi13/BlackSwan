@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,12 +23,10 @@ import hu.marton.tamas.movie.util.ViewHelper;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolderHandler> {
 
     private ResponseContent responseContent;
-    private final DisplayImageOptions imageOptions;
     private ResultWrapperClickListener resultWrapperClickListener;
 
-    public HomeAdapter(ResponseContent responseContent, DisplayImageOptions imageOptions, ResultWrapperClickListener resultWrapperClickListener) {
+    public HomeAdapter(ResponseContent responseContent, ResultWrapperClickListener resultWrapperClickListener) {
         this.responseContent = responseContent;
-        this.imageOptions = imageOptions;
         this.resultWrapperClickListener = resultWrapperClickListener;
     }
 
@@ -56,7 +52,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 });
                 holder.year.setText(resultWrapper.getReleaseDate());
                 holder.title.setText(resultWrapper.getTitle());
-                ImageLoader.getInstance().displayImage(resultWrapper.getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                setupImage(holder.image, resultWrapper.getLogoImageUrl());
                 break;
             case SERIES:
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,15 +63,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 });
                 holder.title.setText(resultWrapper.getName());
                 holder.year.setText(resultWrapper.getFirstAirDate());
-                ImageLoader.getInstance().displayImage(resultWrapper.getLogoImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                setupImage(holder.image, resultWrapper.getLogoImageUrl());
                 break;
             case PEOPLE:
                 holder.title.setText(resultWrapper.getName());
                 ViewHelper.setVisibility(View.GONE, holder.rate, holder.moreInfo, holder.separator);
-                ImageLoader.getInstance().displayImage(resultWrapper.getProfileImageUrl(), holder.image, imageOptions, new SimpleImageLoadingListener());
+                setupImage(holder.image, resultWrapper.getProfileImageUrl());
                 break;
         }
         holder.overView.setText(resultWrapper.getOverview());
+    }
+
+    private void setupImage(ImageView imageView, String url) {
+        Picasso.with(imageView.getContext())
+                .load(url)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder_error)
+                .into(imageView);
+
+        //TODO: switch off this
+        Picasso.with(imageView.getContext()).setIndicatorsEnabled(true);
     }
 
     @Override

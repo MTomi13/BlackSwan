@@ -8,16 +8,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import hu.marton.tamas.movie.MovieActivity;
 import hu.marton.tamas.movie.R;
 import hu.marton.tamas.movie.api.Popular.model.ResultWrapper;
-import hu.marton.tamas.movie.util.ViewHelper;
 
 /**
  * Created by tamas.marton on 27/05/2016.
@@ -31,7 +28,7 @@ public class DetailsActivity extends MovieActivity {
         setupToolbar();
 
         ResultWrapper resultWrapper = getIntent().getParcelableExtra(ResultWrapper.class.getName());
-        setupImages(resultWrapper, ViewHelper.getImageOptions());
+        setupImagesView(resultWrapper);
         setupTextViews(resultWrapper);
     }
 
@@ -56,12 +53,19 @@ public class DetailsActivity extends MovieActivity {
 
     /**
      * @param resultWrapper resultWrapper
-     * @param imageOptions  imageOptions
-     *                      setup image in the toolbar, and the poster image
      */
-    private void setupImages(ResultWrapper resultWrapper, DisplayImageOptions imageOptions) {
-        ImageLoader.getInstance().displayImage(resultWrapper.getBackDropImageUrl(), ((ImageView) findViewById(R.id.collapsing_image)), imageOptions, new SimpleImageLoadingListener());
-        ImageLoader.getInstance().displayImage(resultWrapper.getLogoImageUrl(), ((ImageView) findViewById(R.id.poster_imageview)), imageOptions, new SimpleImageLoadingListener());
+    private void setupImagesView(ResultWrapper resultWrapper) {
+        setupImages(((ImageView) findViewById(R.id.collapsing_image)), resultWrapper.getBackDropImageUrl());
+        setupImages(((ImageView) findViewById(R.id.poster_imageview)), resultWrapper.getLogoImageUrl());
+    }
+
+    private void setupImages(ImageView imageView, String url) {
+        Picasso.with(this)
+                .load(url)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder_error)
+                .into(imageView);
+        Picasso.with(this).setIndicatorsEnabled(true);
     }
 
     /**

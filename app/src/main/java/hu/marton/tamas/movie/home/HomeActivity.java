@@ -191,7 +191,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      * @param responseContent setup the SearchResultAdapter
      */
     private void setupRecycleViewAdapter(ResponseContent responseContent) {
-        HomeAdapter adapter = new HomeAdapter(responseContent, ViewHelper.getImageOptions(), this);
+        HomeAdapter adapter = new HomeAdapter(responseContent, this);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         scaleAdapter.setDuration(ANIM_DURATION);

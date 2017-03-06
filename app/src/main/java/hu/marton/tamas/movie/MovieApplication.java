@@ -1,10 +1,6 @@
 package hu.marton.tamas.movie;
 
 import android.app.Application;
-import android.content.Context;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import dagger.ObjectGraph;
 import hu.marton.tamas.movie.modules.ApplicationModule;
@@ -22,7 +18,6 @@ public class MovieApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setupObjectGraph();
-        initImageLoader(getApplicationContext());
     }
 
     /**
@@ -30,17 +25,6 @@ public class MovieApplication extends Application {
      */
     private void setupObjectGraph() {
         objectGraph = ObjectGraph.create(new ApplicationModule(this), new NetworkModule());
-    }
-
-    /**
-     * @param context init imageLoader
-     */
-    public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.writeDebugLogs();
-        config.memoryCacheSize(20 * 1024 * 1024);
-        ImageLoader.getInstance().init(config.build());
     }
 
     public ObjectGraph getApplicationGraph() {
