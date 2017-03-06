@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/bottomBarItemOne"
+        icon="@drawable/movies_icon"
+        title="@string/bottom_bar_movies" />
+    <tab
+        id="@+id/bottomBarItemTwo"
+        icon="@drawable/series_icon"
+        title="@string/bottom_bar_series" />
+    <tab
+        id="@+id/bottomBarItemThree"
+        icon="@drawable/people_icon"
+        title="@string/bottom_bar_peoples" />
+</tabs>

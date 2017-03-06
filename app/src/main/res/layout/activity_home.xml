@@ -33,4 +33,12 @@
             android:indeterminate="true"
             android:visibility="gone"/>
     </RelativeLayout>
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        app:bb_tabXmlResource="@xml/bottom_bar_menu"
+        app:bb_behavior="shy"/>
 </android.support.design.widget.CoordinatorLayout>

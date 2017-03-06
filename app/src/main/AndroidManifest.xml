@@ -1,23 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hu.marton.tamas.blackswan">
+    package="hu.marton.tamas.movie">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".BlackSwanApplication"
+        android:name="hu.marton.tamas.movie.MovieApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".BlackSwanActivity"
+            android:name="hu.marton.tamas.movie.MovieActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".splash.SplashActivity"
+            android:name="hu.marton.tamas.movie.splash.SplashActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.HomeActivity"
+            android:name="hu.marton.tamas.movie.home.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -38,13 +38,13 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".details.DetailsActivity"
+            android:name="hu.marton.tamas.movie.details.DetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <provider
-            android:name=".util.SuggestionProvider"
-            android:authorities="hu.marton.tamas.blackswan.util.SuggestionProvider" />
+            android:name="hu.marton.tamas.movie.util.SuggestionProvider"
+            android:authorities="hu.marton.tamas.movie.util.SuggestionProvider" />
     </application>
 </manifest>
