@@ -7,12 +7,14 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import hu.marton.tamas.movie.MovieActivity;
-import hu.marton.tamas.movie.home.HomeActivity;
 import hu.marton.tamas.movie.R;
+import hu.marton.tamas.movie.home.HomeActivity;
 import hu.marton.tamas.movie.util.GeneralErrorHandler;
 import hu.marton.tamas.movie.util.ViewHelper;
 
@@ -20,6 +22,9 @@ import hu.marton.tamas.movie.util.ViewHelper;
  * Created by tamas.marton on 26/05/2016.
  */
 public class SplashActivity extends MovieActivity implements SplashActivityController.ConfigurationRequestListener {
+
+    @BindView(R.id.progress_ring)
+    ProgressBar progressRing;
 
     @Inject
     SplashActivityController splashActivityController;
@@ -37,7 +42,7 @@ public class SplashActivity extends MovieActivity implements SplashActivityContr
     }
 
     private void setProgressRingVisibility(int visibility) {
-        ViewHelper.setVisibility(visibility, findViewById(R.id.progress_ring));
+        ViewHelper.setVisibility(visibility, progressRing);
     }
 
     /**

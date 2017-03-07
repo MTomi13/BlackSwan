@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
 import hu.marton.tamas.movie.MovieActivity;
 import hu.marton.tamas.movie.R;
 import hu.marton.tamas.movie.api.Popular.model.ResultWrapper;
@@ -20,6 +21,30 @@ import hu.marton.tamas.movie.api.Popular.model.ResultWrapper;
  * Created by tamas.marton on 27/05/2016.
  */
 public class DetailsActivity extends MovieActivity {
+
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+
+    @BindView(R.id.collapsing_image)
+    ImageView collapsingImage;
+
+    @BindView(R.id.poster_imageview)
+    ImageView posterImage;
+
+    @BindView(R.id.original_language)
+    TextView originalLangTextView;
+
+    @BindView(R.id.overview)
+    TextView overViewTextView;
+
+    @BindView(R.id.rate)
+    TextView rateTextView;
+
+    @BindView(R.id.original_title)
+    TextView titleTextView;
+
+    @BindView(R.id.release_date)
+    TextView releaseDateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +80,8 @@ public class DetailsActivity extends MovieActivity {
      * @param resultWrapper resultWrapper
      */
     private void setupImagesView(ResultWrapper resultWrapper) {
-        setupImages(((ImageView) findViewById(R.id.collapsing_image)), resultWrapper.getBackDropImageUrl());
-        setupImages(((ImageView) findViewById(R.id.poster_imageview)), resultWrapper.getLogoImageUrl());
+        setupImages(collapsingImage, resultWrapper.getBackDropImageUrl());
+        setupImages(posterImage, resultWrapper.getLogoImageUrl());
     }
 
     private void setupImages(ImageView imageView, String url) {
@@ -73,9 +98,9 @@ public class DetailsActivity extends MovieActivity {
      *                      setup the textViews
      */
     private void setupTextViews(ResultWrapper resultWrapper) {
-        ((TextView) findViewById(R.id.original_language)).setText(getResources().getString(R.string.original_language, resultWrapper.getOriginalLanguage()));
-        ((TextView) findViewById(R.id.overview)).setText(resultWrapper.getOverview());
-        ((TextView) findViewById(R.id.rate)).setText(getResources().getString(R.string.rate, String.valueOf(resultWrapper.getVoteAverage()), resultWrapper.getVoteCount()));
+        originalLangTextView.setText(getResources().getString(R.string.original_language, resultWrapper.getOriginalLanguage()));
+        overViewTextView.setText(resultWrapper.getOverview());
+        rateTextView.setText(getResources().getString(R.string.rate, String.valueOf(resultWrapper.getVoteAverage()), resultWrapper.getVoteCount()));
         setupViewsByContentType(resultWrapper);
     }
 
@@ -84,20 +109,17 @@ public class DetailsActivity extends MovieActivity {
      *                      setup the views by contentType. There could be differences between Movies and Series.
      */
     private void setupViewsByContentType(ResultWrapper resultWrapper) {
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        TextView originTitle = (TextView) findViewById(R.id.original_title);
-        TextView releaseDate = (TextView) findViewById(R.id.release_date);
         switch (resultWrapper.getContentType()) {
             case MOVIES:
                 collapsingToolbar.setTitle(resultWrapper.getTitle());
-                originTitle.setText(getResources().getString(R.string.original_title, resultWrapper.getOriginalTitle()));
-                releaseDate.setText(resultWrapper.getReleaseDate());
+                titleTextView.setText(getResources().getString(R.string.original_title, resultWrapper.getOriginalTitle()));
+                releaseDateTextView.setText(resultWrapper.getReleaseDate());
                 break;
             case SERIES:
                 collapsingToolbar.setTitle(resultWrapper.getName());
                 setupOriginCountryForSeries(resultWrapper);
-                originTitle.setText(getResources().getString(R.string.original_title, resultWrapper.getOriginalName()));
-                releaseDate.setText(resultWrapper.getFirstAirDate());
+                titleTextView.setText(getResources().getString(R.string.original_title, resultWrapper.getOriginalName()));
+                releaseDateTextView.setText(resultWrapper.getFirstAirDate());
                 break;
         }
     }

@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import hu.marton.tamas.movie.BaseViewHolder;
 import hu.marton.tamas.movie.R;
 import hu.marton.tamas.movie.api.Popular.model.ContentType;
 import hu.marton.tamas.movie.api.Popular.model.ResponseContent;
@@ -71,7 +73,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 setupImage(holder.image, resultWrapper.getProfileImageUrl());
                 break;
         }
-        holder.overView.setText(resultWrapper.getOverview());
+        holder.description.setText(resultWrapper.getOverview());
     }
 
     private void setupImage(ImageView imageView, String url) {
@@ -90,25 +92,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return responseContent.getResultWrappers().size();
     }
 
-    protected class HomeViewHolderHandler extends RecyclerView.ViewHolder {
+    class HomeViewHolderHandler extends BaseViewHolder {
 
-        private final TextView title;
-        private final TextView rate;
-        private final TextView year;
-        private final TextView overView;
-        private final TextView moreInfo;
-        private final View separator;
-        private final ImageView image;
+        @BindView(R.id.title)
+        TextView title;
+
+        @BindView(R.id.rate)
+        TextView rate;
+
+        @BindView(R.id.year)
+        TextView year;
+
+        @BindView(R.id.description)
+        TextView description;
+
+        @BindView(R.id.more_info)
+        TextView moreInfo;
+
+        @BindView(R.id.separator)
+        View separator;
+
+        @BindView(R.id.card_imageview)
+        ImageView image;
 
         public HomeViewHolderHandler(final View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
-            rate = (TextView) itemView.findViewById(R.id.rate);
-            year = (TextView) itemView.findViewById(R.id.year);
-            overView = (TextView) itemView.findViewById(R.id.description);
-            moreInfo = (TextView) itemView.findViewById(R.id.more_info);
-            separator = itemView.findViewById(R.id.separator);
-            image = (ImageView) itemView.findViewById(R.id.card_imageview);
         }
     }
 

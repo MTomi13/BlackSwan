@@ -1,8 +1,10 @@
 package hu.marton.tamas.movie;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
 import dagger.ObjectGraph;
 import hu.marton.tamas.movie.modules.ActivityModule;
 
@@ -21,6 +23,12 @@ public class MovieActivity extends AppCompatActivity{
 
         activityGraph = ((MovieApplication) getApplicationContext()).getApplicationGraph().plus(new ActivityModule(this));
         inject(this);
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
     }
 
     public void inject(Object object) {

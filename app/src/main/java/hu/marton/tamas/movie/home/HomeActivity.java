@@ -21,6 +21,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import hu.marton.tamas.movie.MovieActivity;
 import hu.marton.tamas.movie.R;
 import hu.marton.tamas.movie.api.Popular.model.ContentType;
@@ -41,11 +42,20 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
 
     private static final int ANIM_DURATION = 800;
 
+    @BindView(R.id.home_progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
+
+    @BindView(R.id.bottomBar)
+    BottomBar bottomBar;
+
     @Inject
     HomeActivityController homeActivityController;
-
-    private BottomBar bottomBar;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +68,13 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
 
         bottomBarClicked(ContentType.MOVIES);
         homeActivityController.setContentRequestListener(this);
-        ((ProgressBar) findViewById(R.id.home_progress_bar)).setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(this));
+        progressBar.setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(this));
     }
 
     /**
      * setup toolbar
      */
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
@@ -73,7 +82,6 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      * setup recycleView
      */
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         if (recyclerView != null) {
             recyclerView.setLayoutManager(linearLayoutManager);
@@ -83,7 +91,6 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
     /**
      */
     private void setupBottomBar() {
-        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setItems(R.xml.bottom_bar_menu);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -114,7 +121,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      */
     private void bottomBarClicked(ContentType contentType) {
         homeActivityController.startContentRequest(contentType);
-        ViewHelper.setVisibility(View.VISIBLE, findViewById(R.id.home_progress_bar));
+        ViewHelper.setVisibility(View.VISIBLE, progressBar);
     }
 
     /**
@@ -179,7 +186,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
     @Override
     public void contentRequestSuccess(ResponseContent responseContent) {
         setupRecycleViewAdapter(responseContent);
-        ViewHelper.setVisibility(View.GONE, findViewById(R.id.home_progress_bar));
+        ViewHelper.setVisibility(View.GONE, progressBar);
     }
 
     @Override
