@@ -1,5 +1,8 @@
 package hu.marton.tamas.movie.api;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 import hu.marton.tamas.movie.api.Configuration.ConfigurationService;
 import hu.marton.tamas.movie.api.Popular.PopularContentService;
 import hu.marton.tamas.movie.api.search.SearchService;
@@ -19,27 +22,31 @@ public class ServiceFactory {
      * @return PopularContentService
      * create retrofit builder for PopularContentService
      */
-    public PopularContentService createPopularService() {
-        Retrofit.Builder builder = getRestAdapterBuilder(new OkHttpClient.Builder().addInterceptor(setupLogger()).build(), API_ENDPOINT);
-        return builder.build().create(PopularContentService.class);
+    public PopularContentService createPopularService(Context context) {
+        return getBuilder(context).build().create(PopularContentService.class);
     }
 
     /**
      * @return ConfigurationService
      * create retrofit builder for ConfigurationService
      */
-    public ConfigurationService createConfigurationService() {
-        Retrofit.Builder builder = getRestAdapterBuilder(new OkHttpClient.Builder().addInterceptor(setupLogger()).build(), API_ENDPOINT);
-        return builder.build().create(ConfigurationService.class);
+    public ConfigurationService createConfigurationService(Context context) {
+        return getBuilder(context).build().create(ConfigurationService.class);
     }
 
     /**
      * @return SearchService
      * create retrofit builder for SearchService
      */
-    public SearchService createSearchService() {
-        Retrofit.Builder builder = getRestAdapterBuilder(new OkHttpClient.Builder().addInterceptor(setupLogger()).build(), API_ENDPOINT);
-        return builder.build().create(SearchService.class);
+    public SearchService createSearchService(Context context) {
+        return getBuilder(context).build().create(SearchService.class);
+    }
+
+    private Retrofit.Builder getBuilder(Context context) {
+        return getRestAdapterBuilder(new OkHttpClient.Builder()
+                .addInterceptor(setupLogger())
+                .addInterceptor(new NoConnectivityInterceptor((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)))
+                .build(), API_ENDPOINT);
     }
 
     /**

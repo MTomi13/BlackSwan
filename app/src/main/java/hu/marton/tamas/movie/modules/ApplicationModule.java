@@ -29,19 +29,19 @@ public class ApplicationModule {
     @Provides
     @Singleton
     ConfigurationService provideConfigurationService() {
-        return new ServiceFactory().createConfigurationService();
+        return new ServiceFactory().createConfigurationService(application.getApplicationContext());
     }
 
     @Provides
     @Singleton
     PopularContentService providePopularService() {
-        return new ServiceFactory().createPopularService();
+        return new ServiceFactory().createPopularService(application.getApplicationContext());
     }
 
     @Provides
     @Singleton
     SearchService provideSearchService() {
-        return new ServiceFactory().createSearchService();
+        return new ServiceFactory().createSearchService(application.getApplicationContext());
     }
 
     @Provides

@@ -56,6 +56,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
 
     @Inject
     HomeActivityController homeActivityController;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      */
     private void setupSearchView(final Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
         searchView.setSubmitButtonEnabled(true);
@@ -185,6 +186,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
 
     @Override
     public void contentRequestSuccess(ResponseContent responseContent) {
+        searchView.onActionViewCollapsed();
         setupRecycleViewAdapter(responseContent);
         ViewHelper.setVisibility(View.GONE, progressBar);
     }

@@ -8,7 +8,7 @@ import android.content.SearchRecentSuggestionsProvider;
  */
 public class SuggestionProvider extends SearchRecentSuggestionsProvider{
 
-    public final static String AUTHORITY = "hu.marton.tamas.blackswan.util.SuggestionProvider";
+    public final static String AUTHORITY = "hu.marton.tamas.movie.util.SuggestionProvider";
     public final static int MODE = DATABASE_MODE_QUERIES;
 
     public SuggestionProvider() {
