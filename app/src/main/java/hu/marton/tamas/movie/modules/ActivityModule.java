@@ -9,7 +9,9 @@ import hu.marton.tamas.movie.api.Popular.PopularContentRequester;
 import hu.marton.tamas.movie.api.search.SearchRequester;
 import hu.marton.tamas.movie.details.DetailsActivity;
 import hu.marton.tamas.movie.home.HomeActivity;
-import hu.marton.tamas.movie.home.HomeActivityController;
+import hu.marton.tamas.movie.home.HomeInteractorImpl;
+import hu.marton.tamas.movie.home.HomePresenterImpl;
+import hu.marton.tamas.movie.home.HomeView;
 import hu.marton.tamas.movie.splash.SplashActivity;
 import hu.marton.tamas.movie.splash.SplashInteractorImpl;
 import hu.marton.tamas.movie.splash.SplashPresenterImpl;
@@ -47,12 +49,22 @@ public class ActivityModule {
     }
 
     @Provides
-    HomeActivityController provideHomeActivityController(PopularContentRequester popularContentRequester, SearchRequester searchRequester, ConfigurationResponseStore configurationResponseStore) {
-        return new HomeActivityController(popularContentRequester, searchRequester, configurationResponseStore);
+    HomePresenterImpl provideHomePresenterImpl(HomeInteractorImpl homeInteractor, ConfigurationResponseStore configurationResponseStore, HomeView homeView) {
+        return new HomePresenterImpl(homeInteractor, configurationResponseStore, homeView);
+    }
+
+    @Provides
+    HomeInteractorImpl provideHomeActivityController(PopularContentRequester popularContentRequester, SearchRequester searchRequester) {
+        return new HomeInteractorImpl(popularContentRequester, searchRequester);
     }
 
     @Provides
     SplashView provideSplashView() {
         return (SplashView) movieActivity;
+    }
+
+    @Provides
+    HomeView provideHomeView() {
+        return (HomeView) movieActivity;
     }
 }

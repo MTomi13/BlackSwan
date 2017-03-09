@@ -21,12 +21,12 @@ public class SplashPresenterImpl implements SplashPresenter, SplashInteractorLis
     @Override
     public void fetchConfiguration(SplashInteractorImpl splashInteractor) {
         splashInteractor.startConfigurationRequest(this);
-        splashView.showProgressRingVisibility(View.VISIBLE);
+        splashView.showProgressView(View.VISIBLE);
     }
 
     @Override
     public void configurationSuccess() {
-        splashView.showProgressRingVisibility(View.GONE);
+        splashView.showProgressView(View.GONE);
         splashView.fetchConfigurationSuccess();
     }
 

@@ -47,7 +47,7 @@ public class SplashActivity extends MovieActivity implements SplashView {
     }
 
     @Override
-    public void showProgressRingVisibility(int visibility) {
+    public void showProgressView(int visibility) {
         ViewHelper.setVisibility(visibility, progressRing);
     }
 

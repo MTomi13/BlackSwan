@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.roughike.bottombar.BottomBar;
@@ -28,6 +28,7 @@ import hu.marton.tamas.movie.api.Popular.model.ContentType;
 import hu.marton.tamas.movie.api.Popular.model.ResponseContent;
 import hu.marton.tamas.movie.api.Popular.model.ResultWrapper;
 import hu.marton.tamas.movie.details.DetailsActivity;
+import hu.marton.tamas.movie.home.HomeAdapter.ResultWrapperClickListener;
 import hu.marton.tamas.movie.util.GeneralErrorHandler;
 import hu.marton.tamas.movie.util.SuggestionProvider;
 import hu.marton.tamas.movie.util.ViewHelper;
@@ -38,7 +39,7 @@ import me.zhanghai.android.materialprogressbar.IndeterminateHorizontalProgressDr
 /**
  * Created by tamas.marton on 26/05/2016.
  */
-public class HomeActivity extends MovieActivity implements HomeActivityController.ContentRequestListener, HomeAdapter.ResultWrapperClickListener {
+public class HomeActivity extends MovieActivity implements HomeView, ResultWrapperClickListener {
 
     private static final int ANIM_DURATION = 800;
 
@@ -55,20 +56,27 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
     BottomBar bottomBar;
 
     @Inject
-    HomeActivityController homeActivityController;
+    HomePresenterImpl homePresenter;
+
+    @Inject
+    HomeInteractorImpl homeInteractorImpl;
+
     private SearchView searchView;
+    private SearchRecentSuggestions suggestions;
+    private ContentType currentContentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setupToolbar();
-        setupBottomBar();
-        handleIntent(getIntent());
-        setupRecyclerView();
+        suggestions = new SearchRecentSuggestions(this, SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
 
+        setupToolbar();
+        setupRecyclerView();
+        setupBottomBar();
         bottomBarClicked(ContentType.MOVIES);
-        homeActivityController.setContentRequestListener(this);
+        homePresenter.handleSearchIntent(getIntent(), suggestions, currentContentType);
+
         progressBar.setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(this));
     }
 
@@ -83,9 +91,8 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      * setup recycleView
      */
     private void setupRecyclerView() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         if (recyclerView != null) {
-            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 
@@ -121,8 +128,8 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
      *                    handle bottom bar item click
      */
     private void bottomBarClicked(ContentType contentType) {
-        homeActivityController.startContentRequest(contentType);
-        ViewHelper.setVisibility(View.VISIBLE, progressBar);
+        currentContentType = contentType;
+        homePresenter.startFetchContent(currentContentType);
     }
 
     /**
@@ -152,48 +159,7 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        handleIntent(intent);
-    }
-
-    /**
-     * @param intent handle search intent
-     */
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
-            startQueryByContentType(query);
-        }
-    }
-
-    /**
-     * @param query query
-     *              start search by content type
-     */
-    private void startQueryByContentType(String query) {
-        switch (bottomBar.getCurrentTabPosition()) {
-            case 0:
-                homeActivityController.startSearchRequest(ContentType.MOVIES, query);
-                break;
-            case 1:
-                homeActivityController.startSearchRequest(ContentType.SERIES, query);
-                break;
-            default:
-                homeActivityController.startSearchRequest(ContentType.PEOPLE, query);
-        }
-    }
-
-    @Override
-    public void contentRequestSuccess(ResponseContent responseContent) {
-        searchView.onActionViewCollapsed();
-        setupRecycleViewAdapter(responseContent);
-        ViewHelper.setVisibility(View.GONE, progressBar);
-    }
-
-    @Override
-    public void contentRequestFailed(Throwable throwable) {
-        GeneralErrorHandler.showErrorMessage(this, getString(R.string.snackbar_text));
+        homePresenter.handleSearchIntent(intent, suggestions, currentContentType);
     }
 
     /**
@@ -213,5 +179,21 @@ public class HomeActivity extends MovieActivity implements HomeActivityControlle
         resultWrapper.setContentType(contentType);
         intent.putExtra(ResultWrapper.class.getName(), resultWrapper);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFetchContentSuccess(ResponseContent responseContent) {
+        searchView.onActionViewCollapsed();
+        setupRecycleViewAdapter(responseContent);
+    }
+
+    @Override
+    public void onFetchContentFailed(@StringRes int errorMessage) {
+        GeneralErrorHandler.showErrorMessage(this, getString(errorMessage));
+    }
+
+    @Override
+    public void showProgressView(int visibility) {
+        ViewHelper.setVisibility(visibility, progressBar);
     }
 }

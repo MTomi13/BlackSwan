@@ -63,8 +63,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         resultWrapperClickListener.resultWrapperClicked(resultWrapper, contentType);
                     }
                 });
-                holder.title.setText(resultWrapper.getName());
                 holder.year.setText(resultWrapper.getFirstAirDate());
+                holder.title.setText(resultWrapper.getName());
                 setupImage(holder.image, resultWrapper.getLogoImageUrl());
                 break;
             case PEOPLE:
