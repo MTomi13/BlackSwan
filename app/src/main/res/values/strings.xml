@@ -13,4 +13,5 @@
 
     <string name="snackbar_text">Something went wrong, please try again.</string>
     <string name="snackbar_text_internet">Internet connection error! Pls connect to the internet!</string>
+    <string name="error_connection">Internet connection error! Pls connect to the internet!</string>
 </resources>

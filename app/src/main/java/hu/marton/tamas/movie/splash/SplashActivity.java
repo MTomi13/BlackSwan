@@ -3,7 +3,7 @@ package hu.marton.tamas.movie.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.annotation.StringRes;
 import android.widget.ProgressBar;
 
 import javax.inject.Inject;
@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import hu.marton.tamas.movie.MovieActivity;
 import hu.marton.tamas.movie.R;
-import hu.marton.tamas.movie.api.NoConnectivityException;
 import hu.marton.tamas.movie.home.HomeActivity;
 import hu.marton.tamas.movie.util.GeneralErrorHandler;
 import hu.marton.tamas.movie.util.ViewHelper;
@@ -19,40 +18,37 @@ import hu.marton.tamas.movie.util.ViewHelper;
 /**
  * Created by tamas.marton on 26/05/2016.
  */
-public class SplashActivity extends MovieActivity implements SplashActivityController.ConfigurationRequestListener {
+public class SplashActivity extends MovieActivity implements SplashView {
 
     @BindView(R.id.progress_ring)
     ProgressBar progressRing;
 
     @Inject
-    SplashActivityController splashActivityController;
+    SplashPresenterImpl splashPresenter;
+
+    @Inject
+    SplashInteractorImpl splashInteractor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        splashActivityController.startConfigurationRequest(this);
-        setProgressRingVisibility(View.VISIBLE);
-
-    }
-
-    private void setProgressRingVisibility(int visibility) {
-        ViewHelper.setVisibility(visibility, progressRing);
+        splashPresenter.fetchConfiguration(splashInteractor);
     }
 
     @Override
-    public void configurationSuccess() {
-        setProgressRingVisibility(View.GONE);
+    public void fetchConfigurationFailed(@StringRes int message) {
+        GeneralErrorHandler.showErrorMessage(this, getString(message));
+    }
+
+    @Override
+    public void fetchConfigurationSuccess() {
         startHomeActivity();
     }
 
     @Override
-    public void configurationFailed(Throwable throwable) {
-        if (throwable instanceof NoConnectivityException) {
-            GeneralErrorHandler.showErrorMessage(this, throwable.getMessage());
-        } else {
-            GeneralErrorHandler.showErrorMessage(this, getString(R.string.snackbar_text));
-        }
+    public void showProgressRingVisibility(int visibility) {
+        ViewHelper.setVisibility(visibility, progressRing);
     }
 
     private void startHomeActivity() {

@@ -12,26 +12,26 @@ import retrofit2.Response;
  * Created by tamas.marton on 26/05/2016.
  * Controller for the SPlashActivity to handle the configuration request, save the result and callback to the activity
  */
-public class SplashActivityController implements Callback<Configuration> {
+public class SplashInteractorImpl implements Callback<Configuration> {
 
     private ConfigurationRequester configurationRequester;
     private ConfigurationResponseStore configurationResponseStore;
-    private ConfigurationRequestListener configurationRequestListener;
+    private SplashInteractorListener splashInteractorListener;
 
-    public SplashActivityController(ConfigurationRequester configurationRequester, ConfigurationResponseStore configurationResponseStore) {
+    public SplashInteractorImpl(ConfigurationRequester configurationRequester, ConfigurationResponseStore configurationResponseStore) {
         this.configurationRequester = configurationRequester;
         this.configurationResponseStore = configurationResponseStore;
     }
 
-    public void startConfigurationRequest(ConfigurationRequestListener configurationRequestListener) {
-        this.configurationRequestListener = configurationRequestListener;
+    public void startConfigurationRequest(SplashInteractorListener splashInteractorListener) {
+        this.splashInteractorListener = splashInteractorListener;
         configurationRequester.getConfiguration(this);
     }
 
     @Override
     public void onResponse(Call<Configuration> call, Response<Configuration> response) {
         saveConfiguration(response);
-        configurationRequestListener.configurationSuccess();
+        splashInteractorListener.configurationSuccess();
     }
 
     /**
@@ -44,10 +44,10 @@ public class SplashActivityController implements Callback<Configuration> {
 
     @Override
     public void onFailure(Call<Configuration> call, Throwable throwable) {
-        configurationRequestListener.configurationFailed(throwable);
+        splashInteractorListener.configurationFailed(throwable);
     }
 
-    public interface ConfigurationRequestListener {
+    public interface SplashInteractorListener {
 
         void configurationSuccess();
 
