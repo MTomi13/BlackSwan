@@ -8,6 +8,8 @@ import hu.marton.tamas.movie.api.Configuration.model.ConfigurationResponseStore;
 import hu.marton.tamas.movie.api.Popular.PopularContentRequester;
 import hu.marton.tamas.movie.api.search.SearchRequester;
 import hu.marton.tamas.movie.details.DetailsActivity;
+import hu.marton.tamas.movie.details.DetailsPresenterImpl;
+import hu.marton.tamas.movie.details.DetailsView;
 import hu.marton.tamas.movie.home.HomeActivity;
 import hu.marton.tamas.movie.home.HomeInteractorImpl;
 import hu.marton.tamas.movie.home.HomePresenterImpl;
@@ -59,6 +61,11 @@ public class ActivityModule {
     }
 
     @Provides
+    DetailsPresenterImpl provideDetailsPresenterImpl(DetailsView detailsView) {
+        return new DetailsPresenterImpl(detailsView);
+    }
+
+    @Provides
     SplashView provideSplashView() {
         return (SplashView) movieActivity;
     }
@@ -66,5 +73,10 @@ public class ActivityModule {
     @Provides
     HomeView provideHomeView() {
         return (HomeView) movieActivity;
+    }
+
+    @Provides
+    DetailsView provideDetailsView() {
+        return (DetailsView) movieActivity;
     }
 }
